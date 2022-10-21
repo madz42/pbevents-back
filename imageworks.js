@@ -201,7 +201,6 @@ const savePreview = async (bunkers, fieldId) => {
 const getPreview = (id) => {
   try {
     const data = fs.readFileSync(`./images/preview${id}.jpg`);
-    console.log(data.toString("base64"));
     return "data:image/jpg;base64," + data.toString("base64");
   } catch (err) {
     console.error(err);
@@ -209,4 +208,22 @@ const getPreview = (id) => {
   }
 };
 
-module.exports = { renderSVG, renderJPG, savePreview, getPreview, makePreview };
+const getImage = (id) => {
+  try {
+    const data = fs.readFileSync(`./images/${id}.jpg`);
+    // return "data:image/jpg;base64," + data.toString("base64");
+    return data;
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+};
+
+module.exports = {
+  renderSVG,
+  renderJPG,
+  savePreview,
+  getPreview,
+  makePreview,
+  getImage,
+};

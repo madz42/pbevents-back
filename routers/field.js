@@ -5,6 +5,7 @@ const {
   savePreview,
   getPreview,
   makePreview,
+  getImage,
 } = require("../imageworks");
 const field = require("../models/").field;
 
@@ -15,10 +16,24 @@ router.get("/all", async (req, res, next) => {
   console.log("FIELDS");
   try {
     const fields = await field.findAll();
-    res.send(fields);
+    // delete fields.dataValues["data"];
+    const fieldsStripped = fields.map((f) => {
+      delete f.dataValues["data"];
+      return f.dataValues;
+    });
+    res.send(fieldsStripped);
   } catch (e) {
     next(e);
   }
+});
+
+router.get("/intro", async (req, res, next) => {
+  const rnd = Math.ceil(Math.random() * 3);
+  console.log("INTRO", rnd);
+  const image = getImage(rnd);
+  const imageTXT = "data:image/jpg;base64," + image.toString("base64");
+  // res.setHeader("Content-Type", "image/jpeg");
+  res.status(200).send(imageTXT);
 });
 
 router.get("/id/:id", async (req, res, next) => {
@@ -31,6 +46,7 @@ router.get("/id/:id", async (req, res, next) => {
       data: JSON.parse(bunkers.data),
       name: bunkers.name,
       total: bunkers.total,
+      preview: bunkers.preview,
     });
   } catch (e) {
     next(e);
