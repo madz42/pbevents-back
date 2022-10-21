@@ -30,10 +30,14 @@ router.get("/all", async (req, res, next) => {
 router.get("/intro", async (req, res, next) => {
   const rnd = Math.ceil(Math.random() * 3);
   console.log("INTRO", rnd);
-  const image = getImage(rnd);
-  const imageTXT = "data:image/jpg;base64," + image.toString("base64");
-  // res.setHeader("Content-Type", "image/jpeg");
-  res.status(200).send(imageTXT);
+  //replace
+  // const image = getImage(rnd);
+  // const imageTXT = "data:image/jpg;base64," + image.toString("base64");
+  // res.status(200).send(imageTXT);
+  //send img vv
+  const imageURL = `http://paranoidreptiloid.com/images/${rnd}.jpg`;
+  res.status(200).send(imageURL);
+  //send img ^^
 });
 
 router.get("/id/:id", async (req, res, next) => {
